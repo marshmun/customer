@@ -2,6 +2,7 @@ package com.example.customer.customerService;
 
 
 import com.example.customer.model.Customer;
+import com.example.customer.repository.CustomerRepository;
 import com.example.customer.service.CustomerService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,39 +22,79 @@ public class CustomerServiceTest {
     @Autowired
     CustomerService customerService;
 
+
     @Test
     public void testAddGet() {
-        Customer testCustomer1 = createTestCustomer();  // Create test customer object
-        customerService.add(testCustomer1);  // Add to database
+        // Get unique names every time this test runs
+        String firstName = Long.toString(System.currentTimeMillis());
+        String lastName = Long.toString(System.currentTimeMillis());
+        String phone = Long.toString(System.currentTimeMillis());
+        String email = Long.toString(System.currentTimeMillis());
 
-        // Verify get all
-        List<Customer> customers = customerService.getAll();// Get all records from database
-        Assert.assertNotNull("should return customers from db", customers);
-        // Verify add
-        Customer foundTestCustomer1 = findInList(customers, testCustomer1.getFirstname(), testCustomer1.getLastname(),
-                testCustomer1.getPhone(), testCustomer1.getEmail());
-        Assert.assertNotNull("should find added customer in customers returned from db", foundTestCustomer1);
+        Customer customer1 = new Customer();
+        customer1.setFirstname(firstName);
+        customer1.setLastname(lastName);
+        customer1.setPhone(phone);
+        customer1.setEmail(email);
+        customerService.add(customer1);
 
-        int id = foundTestCustomer1.getId();
-        foundTestCustomer1 = null; // Reset
-        // Verify get by id
-        foundTestCustomer1 = customerService.getById(id);
-        Assert.assertNotNull("should return customer from db", foundTestCustomer1);
-        Assert.assertEquals("first name should match", testCustomer1.getFirstname(),
-                foundTestCustomer1.getFirstname());
-        Assert.assertEquals("last name should match", testCustomer1.getLastname(),
-                foundTestCustomer1.getLastname());
-        Assert.assertEquals("phone should match", testCustomer1.getPhone(), foundTestCustomer1.getPhone());
-        Assert.assertEquals("email name should match", testCustomer1.getEmail(), foundTestCustomer1.getEmail());
+        List<Customer> customer = customerService.getAll();
+
+        Customer customer2 = findInList(customer, firstName, lastName, phone, email);
+        Assert.assertNotNull(customer2);
+
+        Customer customer3 = customerService.getById(customer2.getId());
+        Assert.assertNotNull(customer3);
+        Assert.assertEquals(firstName, customer3.getFirstname());
+        Assert.assertEquals(lastName, customer3.getLastname());
     }
 
     @Test
     public void testUpdate() {
+        Customer customer1 = createTestCustomer();
+        customerService.add(customer1);
 
+        List<Customer> customer = customerService.getAll();
+
+        Customer customer2 = findInList(customer, customer1.getFirstname(), customer1.getLastname(), customer1.getPhone(), customer1.getEmail());
+        Assert.assertNotNull(customer2);
+
+        String updateFirstName = Long.toString(System.currentTimeMillis());
+        String updateLastName = Long.toString(System.currentTimeMillis());
+        String updatePhone = Long.toString(System.currentTimeMillis());
+        String updateEmail = Long.toString(System.currentTimeMillis());
+
+        customer2.setFirstname(updateFirstName);
+        customer2.setLastname(updateLastName);
+        customer2.setPhone(updatePhone);
+        customer2.setEmail(updateEmail);
+        customerService.update(customer2);
+
+        customer = customerService.getAll();
+
+        Customer customer3 = findInList(customer, updateFirstName, updateLastName, updatePhone, updateEmail);
+        Assert.assertNotNull(customer3);
+        Assert.assertEquals(customer2.getId(), customer3.getId());
     }
+
+
 
     @Test
     public void testDelete() {
+        Customer customer1 = createTestCustomer();
+        customerService.add(customer1);
+
+        List<Customer> customer = customerService.getAll();
+
+        Customer customer2 = findInList(customer, customer1.getFirstname(), customer1.getLastname(), customer1.getPhone(),customer1.getEmail());
+        Assert.assertNotNull(customer2);
+
+        customerService.delete(customer2.getId());
+
+        customer = customerService.getAll();
+        Customer customer3 = findInList(customer, customer1.getFirstname(), customer1.getLastname(), customer1.getPhone(), customer1.getEmail());
+        Assert.assertNull(customer3);
+    }
 
     }
-}
+

@@ -17,7 +17,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private String ADD_SQL = "INSERT INTO customers (firstName, lastName, phone, email) VALUES (?,?,?,?)";
+    private String ADD_SQL = "INSERT INTO customer (firstName, lastName, phone, email) VALUES (?,?,?,?)";
 
     @Override
     public void add(Customer customer) {
@@ -25,7 +25,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 customer.getEmail());
     }
 
-    private String UPDATE_SQL = "UPDATE customers SET firstName = ?, lastName = ?, phone = ?, email = ?) WHERE id = ?";
+    private String UPDATE_SQL = "UPDATE customer SET firstName = ?, lastName = ?, phone = ?, email = ? WHERE id = ?";
 
     @Override
     public void update(Customer customer) {
@@ -33,21 +33,21 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 customer.getEmail(), customer.getId());
     }
 
-    private String GET_BY_ID_SQL = "SELECT * FROM customers WHERE id = ?";
+    private String GET_BY_ID_SQL = "SELECT * FROM customer WHERE id = ?";
 
     @Override
     public Customer getById(int id) {
         return jdbcTemplate.queryForObject(GET_BY_ID_SQL, new CustomerMapper(), id);
     }
 
-    private String GET_ALL_SQL = "SELECT * FROM customers";
+    private String GET_ALL_SQL = "SELECT * FROM customer";
 
     @Override
     public List<Customer> getAll() {
         return jdbcTemplate.query(GET_ALL_SQL, new CustomerMapper());
     }
 
-    private String DELETE_SQL = "DELETE FROM customers WHERE id = ?";
+    private String DELETE_SQL = "DELETE FROM customer WHERE id = ?";
 
     @Override
     public void delete(int id) {
