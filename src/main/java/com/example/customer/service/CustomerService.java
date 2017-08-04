@@ -8,11 +8,11 @@ import java.util.List;
 public interface CustomerService {
     void add(Customer customer);
 
+    void update(Customer customer);
+
     Customer getById(int id);
 
-    List<Customer> get();
-
-    void update(Customer customer);
+    List<Customer> getAll();
 
     void delete(int id);
 }
