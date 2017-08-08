@@ -4,7 +4,9 @@ package com.example.customer.customerService;
 import com.example.customer.model.Customer;
 import com.example.customer.repository.CustomerRepository;
 import com.example.customer.service.CustomerService;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,10 @@ import static com.example.customer.common.CustomerServiceTestUtils.findInList;
 public class CustomerServiceTest {
     @Autowired
     CustomerService customerService;
+
+    @Before
+
+    @After
 
 
     @Test
