@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Customers</title>
+</head>
+<div class="navigation">
+    <a href="/AddCustomer">Add Customer</a>
+
+</div>
+<body>
+
+
+    <tr th:each="customer : ${customers}">
+
+        <div class="customers">
+            <td><a th:href="@{'/ViewCustomer/' + ${customer.id}}">Id:<span th:text = "${customer.id}"></span></a></td>
+            <td><p>First name:<span th:text="${customer.firstname}"></span></p></td>
+            <td><p>Last name:<span th:text="${customer.lastname}"></span></p></td>
+        </div>
+    </tr>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <title>View Customer</title>
+</head>
+
+<body>
+<a href="/Customers">Back</a>
+
+<tr th:each="customer : ${customer}">
+
+    <div class="customers">
+        <td><h3>ID:<span th:text="${customer.id}"></span></h3></td>
+        <td><h3>First name:<span th:text="${customer.firstname}"></span></h3></td>
+        <td><h3>Last name:<span th:text="${customer.lastname}"></span></h3></td>
+        <td><h3>Email:<span th:text="${customer.email}"></span></h3></td>
+        <td><h3>Phone Number:<span th:text = "${customer.phone}"></span></h3></td>
+    </div>
+</tr>
+
+
+</body>
+</html>
